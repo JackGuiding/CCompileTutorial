@@ -39,7 +39,8 @@ void ProcssInput() {
 }
 
 void DoLogic(float dt) {
-    ctx.posX += ctx.moveX * ctx.moveSpeed * dt;
+    // 移动小球
+    ctx.posX += ctx.moveX * ctx.moveSpeed * dt; // px/s
     ctx.posY += ctx.moveY * ctx.moveSpeed * dt;
 }
 
@@ -54,6 +55,19 @@ void Draw() {
 
 int main(void) {
 
+    // 1字节 = 1byte
+    // 1byte = 8bit
+    // 1bit = 1个开关(0或1)
+    // 能表达的十进制: 2^8 - 1 = 255
+    char v1 = 257; // % 256 (取模)
+    // 0: 257
+    v1 = 5;
+    // 0: 5
+
+    unsigned short v2 = 65536; // 2^16 - 1
+    int v3 = 0; // 2^32 - 1
+    printf("v1: %d\n", v2); // 0
+
     // 初始化窗口
     InitWindow(800, 450, "raylib [core] example - basic window");
 
@@ -64,11 +78,18 @@ int main(void) {
     ctx.moveY = 0;
     ctx.moveSpeed = 50.5f;
 
+    SetTargetFPS(60); // 16.67ms
+
     // 保持窗口不关闭
     // ==== 2. 主循环 ====
+    // 帧: 从while开始到while结束
+    // 1秒内的 deltaTime 总和是 1秒
+    // 10000秒内的 deltaTime 总和是 10000秒
     while (!WindowShouldClose()) {
 
-        float deltaTime = GetFrameTime();
+        // <<<< 一帧开始
+
+        float deltaTime = GetFrameTime(); // 1/60 * 60 = 1
 
         // ==== 2.1 ProcessInput 处理输入控制 ====
         // 输入控制: 按住 WSAD 移动小球
@@ -84,10 +105,16 @@ int main(void) {
         // 清空上一帧画面
         ClearBackground(RAYWHITE);
 
+        // FPS: frame per second
+        // 帧/s
+        DrawFPS(10, 10);
+
         // ==== 2.3 Draw 表现(渲染) ====
         Draw();
 
-        EndDrawing();
+        EndDrawing(); // 等待一定秒数, 保持帧率. 正常情况下, 电脑都在等待
+
+        // >>>> 一帧结束
     }
 
     // 关闭窗口
