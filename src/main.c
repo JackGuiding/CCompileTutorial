@@ -1,41 +1,64 @@
-// 什么是 #include
-// 它的作用是引入外部的头文件
-
-// <> 代表引入的是系统的头文件
-// - stdio.h stdlib.h -> libc.a(.c)
-
-// "" 代自定义的头文件
-
-#include "../include/raylib.h" // ../ 表示上一级目录 ../../上上级目录
-#include "a.h"                 // 同级
-#include "child/b.h"           // 子目录
 #include <stdio.h>
+#include "../include/raylib.h" // ../ 表示上一级目录 ../../上上级目录
 
 int main(void) {
-
-    // 程序一定是按顺序运行的
-    printf("456\r\n");
-    printf("Hello\r\n");
-    printf("123");
 
     // 初始化窗口
     InitWindow(800, 450, "raylib [core] example - basic window");
 
-    float x = 400;
-    float y = 225;
+    float posX = 400;
+    float posY = 225;
+    float moveSpeed = 50.5f;
 
     // 保持窗口不关闭
     while (!WindowShouldClose()) {
 
         float deltaTime = GetFrameTime();
-        x += deltaTime * 100;
+
+        // 输入控制: 按住 WSAD 移动小球
+        float moveX = 0;
+        float moveY = 0;
+        {
+            if (IsKeyDown(KEY_A)) {
+                moveX -= 1;
+            } else if (IsKeyDown(KEY_D)) {
+                moveX += 1;
+            }
+
+            if (IsKeyDown(KEY_W)) {
+                moveY -= 1;
+            } else if (IsKeyDown(KEY_S)) {
+                moveY += 1;
+            }
+        }
+
+        // 根据 move 移动小球
+        posX = posX + moveX * moveSpeed * deltaTime;
+        posY = posY + moveY * moveSpeed * deltaTime;
+
+        // ctrl + / 注释和反注释
+        // 按住 
+        // if (IsKeyDown(KEY_SPACE)) {
+        //     printf("Space key is down\n");
+        // }
+
+        // 按下的第一次
+        // if (IsKeyPressed(KEY_SPACE)) {
+        //     printf("Space key is pressed\n");
+        // }
+
+        // 弹起的第一次
+        // if (IsKeyReleased(KEY_SPACE)) {
+        //     printf("Space key is released\n");
+        // }
 
         BeginDrawing();
 
         // 清空上一帧画面
         ClearBackground(RAYWHITE);
 
-        DrawCircle((int)x, (int)y, 50, YELLOW);
+        DrawCircle((int)posX, (int)posY, 50, YELLOW);
+        DrawCircle(800, 450, 10, RED);
 
         EndDrawing();
 
