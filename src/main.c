@@ -1,14 +1,11 @@
 #include "../include/raylib.h" // ../ 表示上一级目录 ../../上上级目录
+#include "Context.h"
 #include <stdio.h>
 
 // 函数之间不可 `跨作用域` 访问 `变量`
 // 因此我们需要一个能跨作用域的变量
 
-float posX = 400;
-float posY = 225;
-float moveX = 0;
-float moveY = 0;
-float moveSpeed = 50.5f;
+Context ctx;
 
 void ProcssInput() {
     // ctrl + / 注释和反注释
@@ -26,30 +23,29 @@ void ProcssInput() {
     // if (IsKeyReleased(KEY_SPACE)) {
     //     printf("Space key is released\n");
     // }
-    {
-        if (IsKeyDown(KEY_A)) {
-            // moveX -= 1; // moveX = moveX - 1;
-            moveX = -1;
-        } else if (IsKeyDown(KEY_D)) {
-            moveX = 1;
-        }
 
-        if (IsKeyDown(KEY_W)) {
-            moveY = -1;
-        } else if (IsKeyDown(KEY_S)) {
-            moveY = +1;
-        }
+    if (IsKeyDown(KEY_A)) {
+        // moveX -= 1; // moveX = moveX - 1;
+        ctx.moveX = -1;
+    } else if (IsKeyDown(KEY_D)) {
+        ctx.moveX = 1;
+    }
+
+    if (IsKeyDown(KEY_W)) {
+        ctx.moveY = -1;
+    } else if (IsKeyDown(KEY_S)) {
+        ctx.moveY = +1;
     }
 }
 
 void DoLogic(float dt) {
-    posX = posX + moveX * moveSpeed * dt;
-    posY = posY + moveY * moveSpeed * dt;
+    ctx.posX += ctx.moveX * ctx.moveSpeed * dt;
+    ctx.posY += ctx.moveY * ctx.moveSpeed * dt;
 }
 
 void Draw() {
     // 多种表现方式 1图像:
-    DrawCircle((int)posX, (int)posY, 50, YELLOW);
+    DrawCircle((int)ctx.posX, (int)ctx.posY, 50, YELLOW);
     DrawCircle(800, 450, 10, RED);
 
     // 多种表现方式 2文字:
@@ -62,6 +58,11 @@ int main(void) {
     InitWindow(800, 450, "raylib [core] example - basic window");
 
     // ==== 1. 初始化(循环前) ====
+    ctx.posX = 400;
+    ctx.posY = 225;
+    ctx.moveX = 0;
+    ctx.moveY = 0;
+    ctx.moveSpeed = 50.5f;
 
     // 保持窗口不关闭
     // ==== 2. 主循环 ====
@@ -84,7 +85,7 @@ int main(void) {
         ClearBackground(RAYWHITE);
 
         // ==== 2.3 Draw 表现(渲染) ====
-        Draw(posX, posY);
+        Draw();
 
         EndDrawing();
     }
