@@ -7,20 +7,21 @@ void ProcssInput(Context *ctx) {}
 void DoLogic(Context *ctx, float dt) {}
 
 void Draw(Context *ctx) {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < ctx->ballCount; i++) {
         BallEntity *ball = &ctx->balls[i];
         DrawCircle((int)ball->posX, (int)ball->posY, 10, RED);
-        printf("ball[%d]: %f, %f\n", i, ball->posX, ball->posY);
     }
 }
 
 int main(void) {
 
     Context ctx = {0}; // 1000
-    for (int i = 0; i < 10; i++) {
+    ctx.ballCount = 5;
+    ctx.ballLimitCount = 10;
+    for (int i = 0; i < ctx.ballCount; i++) {
         BallEntity *ball = &ctx.balls[i];
-        ball->posX = i * 50;
-        ball->posY = i * 50;
+        ball->posX = 50 + i * 50;
+        ball->posY = 225;
     }
 
     // 初始化窗口
@@ -43,6 +44,20 @@ int main(void) {
         // ==== 2.1 ProcessInput 处理输入控制 ====
         // 输入控制: 按住 WSAD 移动小球
         ProcssInput(&ctx);
+
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            Vector2 mousePos = GetMousePosition();
+            // 设置小球的位置
+            if (ctx.ballCount >= ctx.ballLimitCount) {
+                printf("error");
+            } else {
+                BallEntity *newBall = &ctx.balls[ctx.ballCount];
+                newBall->posX = mousePos.x;
+                newBall->posY = mousePos.y;
+                // 生成一个小球: 意味着 Count + 1
+                ctx.ballCount += 1;
+            }
+        }
 
         // ==== 2.2 DoLogic 处理逻辑 ====
         // 不可见的数据变化
