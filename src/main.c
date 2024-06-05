@@ -1,7 +1,7 @@
 #include "../include/raylib.h" // ../ 表示上一级目录 ../../上上级目录
 #include "Context.h"
-#include <stdio.h>
 #include "Physics2D.h"
+#include <stdio.h>
 
 void ProcssInput(Context *ctx) {}
 
@@ -66,11 +66,15 @@ int main(void) {
             for (int i = 0; i < ctx.ballCount; i += 1) {
                 BallEntity *ball = &ctx.balls[i];
                 // 鼠标是否处于小球内部
-                bool isInside = IsPointInsideCircle(mousePos, ball->pos, ball->radius);
+                bool isInside =
+                    IsPointInsideCircle(mousePos, ball->pos, ball->radius);
                 if (isInside) {
+                    // 移除小球:
+                    // 1. 把当前小球和最后一个小球换位
+                    ctx.balls[i] = ctx.balls[ctx.ballCount - 1]; // 最后小球换到当前小球的位置
+                    ctx.ballCount -= 1;
                     printf("No. %d\r\n", i);
                 } else {
-
                 }
             }
         }
