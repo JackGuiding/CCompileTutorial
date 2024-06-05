@@ -3,9 +3,56 @@
 #include "Physics2D.h"
 #include <stdio.h>
 
-void ProcssInput(Context *ctx) {}
+void ProcssInput(Context *ctx) {
 
-void DoLogic(Context *ctx, float dt) {}
+    InputEntity *input = &ctx->input;
+    input->mouseScreenPos = GetMousePosition();
+
+    // if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+    //     input->isMouseLeftDown = true;
+    // } else {
+    //     input->isMouseLeftDown = false;
+    // }
+    input->isMouseLeftDown = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+    input->isMouseRightDown = IsMouseButtonPressed(MOUSE_BUTTON_RIGHT);
+}
+
+void DoLogic(Context *ctx, float dt) {
+
+    InputEntity *input = &ctx->input;
+
+    if (input->isMouseLeftDown) {
+        // 设置小球的位置
+        if (ctx->ballCount >= ctx->ballLimitCount) {
+            printf("error");
+        } else {
+            BallEntity *newBall = &ctx->balls[ctx->ballCount];
+            newBall->pos = input->mouseScreenPos;
+            newBall->radius = 10;
+            // 生成一个小球: 意味着 Count + 1
+            ctx->ballCount += 1;
+        }
+    }
+
+    if (input->isMouseRightDown) {
+        for (int i = 0; i < ctx->ballCount; i += 1) {
+            BallEntity *ball = &ctx->balls[i];
+            // 鼠标是否处于小球内部
+            bool isInside = IsPointInsideCircle(input->mouseScreenPos,
+                                                ball->pos, ball->radius);
+            if (isInside) {
+                // 移除小球:
+                // 1. 把当前小球和最后一个小球换位
+                ctx->balls[i] = ctx->balls[ctx->ballCount -
+                                           1]; // 最后小球换到当前小球的位置
+                ctx->ballCount -= 1;
+                printf("No. %d\r\n", i);
+            } else {
+                
+            }
+        }
+    }
+}
 
 void Draw(Context *ctx) {
     for (int i = 0; i < ctx->ballCount; i++) {
@@ -47,37 +94,6 @@ int main(void) {
         // ==== 2.1 ProcessInput 处理输入控制 ====
         // 输入控制: 按住 WSAD 移动小球
         ProcssInput(&ctx);
-
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            // 左键点击生成小球
-            Vector2 mousePos = GetMousePosition();
-            // 设置小球的位置
-            if (ctx.ballCount >= ctx.ballLimitCount) {
-                printf("error");
-            } else {
-                BallEntity *newBall = &ctx.balls[ctx.ballCount];
-                newBall->pos = mousePos;
-                newBall->radius = 10;
-                // 生成一个小球: 意味着 Count + 1
-                ctx.ballCount += 1;
-            }
-        } else if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-            Vector2 mousePos = GetMousePosition();
-            for (int i = 0; i < ctx.ballCount; i += 1) {
-                BallEntity *ball = &ctx.balls[i];
-                // 鼠标是否处于小球内部
-                bool isInside =
-                    IsPointInsideCircle(mousePos, ball->pos, ball->radius);
-                if (isInside) {
-                    // 移除小球:
-                    // 1. 把当前小球和最后一个小球换位
-                    ctx.balls[i] = ctx.balls[ctx.ballCount - 1]; // 最后小球换到当前小球的位置
-                    ctx.ballCount -= 1;
-                    printf("No. %d\r\n", i);
-                } else {
-                }
-            }
-        }
 
         // ==== 2.2 DoLogic 处理逻辑 ====
         // 不可见的数据变化

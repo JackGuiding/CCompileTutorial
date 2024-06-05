@@ -2,6 +2,7 @@
 #define CONTEXT_H__
 
 #include "BallEntity.h"
+#include "InputEntity.h"
 
 // 该程序的上下文: 球的位置、输入的方向, 即一个程序里的所有数据
 // 我家的上下文: 沙发、门、电视
@@ -17,8 +18,7 @@ typedef struct Context {
     int ballCount;
     int ballLimitCount;
 
-    float moveX;
-    float moveY;
+    InputEntity input;
 
 } Context;
 
