@@ -42,7 +42,7 @@ int main(void) {
 
     // 声明变量 a, int类型
     // C语言每个变量必有类型
-    int a;
+    int a; // a 有两个属性: 内存地址, 内存值
 
     // 赋值
     a = 5;
@@ -52,6 +52,8 @@ int main(void) {
     b = 8;
 
     printf("a: %d\n", a); 
+    
+    BallEntity ball; // 12bytes
 
     // 1字节 = 1byte
     // 1byte = 8bit
