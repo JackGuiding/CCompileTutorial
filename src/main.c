@@ -24,8 +24,8 @@ int main(void) {
 
     Context ctx; // 1000
     int a = 10;
-    Fake_ChangeValue(a);
-    // Real_ChangeValue(&a);
+    // Fake_ChangeValue(a);
+    Real_ChangeValue(&a);
     printf("a: %d\n", a);
 
     // 初始化窗口
