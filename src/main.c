@@ -8,24 +8,7 @@
 Context ctx;
 
 void ProcssInput() {
-    // ctrl + / 注释和反注释
-    // 按住
-    // if (IsKeyDown(KEY_SPACE)) {
-    //     printf("Space key is down\n");
-    // }
-
-    // 按下的第一次
-    // if (IsKeyPressed(KEY_SPACE)) {
-    //     printf("Space key is pressed\n");
-    // }
-
-    // 弹起的第一次
-    // if (IsKeyReleased(KEY_SPACE)) {
-    //     printf("Space key is released\n");
-    // }
-
     if (IsKeyDown(KEY_A)) {
-        // moveX -= 1; // moveX = moveX - 1;
         ctx.moveX = -1;
     } else if (IsKeyDown(KEY_D)) {
         ctx.moveX = 1;
@@ -40,13 +23,17 @@ void ProcssInput() {
 
 void DoLogic(float dt) {
     // 移动小球
-    ctx.posX += ctx.moveX * ctx.moveSpeed * dt; // px/s
-    ctx.posY += ctx.moveY * ctx.moveSpeed * dt;
+    // 变量1: ctx.ball1
+    // 变量2: ball1, 它是复制了 ctx.ball1 的值
+    BallEntity ball1 = ctx.ball1;
+    ball1.posX += ctx.moveX * ball1.moveSpeed * dt; // px/s
+    ball1.posY += ctx.moveY * ball1.moveSpeed * dt;
 }
 
 void Draw() {
+    BallEntity ball1 = ctx.ball1;
     // 多种表现方式 1图像:
-    DrawCircle((int)ctx.posX, (int)ctx.posY, 50, YELLOW);
+    DrawCircle((int)ball1.posX, (int)ball1.posY, 50, YELLOW);
     DrawCircle(800, 450, 10, RED);
 
     // 多种表现方式 2文字:
@@ -54,6 +41,19 @@ void Draw() {
 }
 
 int main(void) {
+
+    // 声明变量 a, int类型
+    // C语言每个变量必有类型
+    int a;
+
+    // 赋值
+    a = 5;
+
+    // 取值
+    int b = a;
+    b = 8;
+
+    printf("a: %d\n", a); 
 
     // 1字节 = 1byte
     // 1byte = 8bit
@@ -65,18 +65,20 @@ int main(void) {
     // 0: 5
 
     unsigned short v2 = 65536; // 2^16 - 1
-    int v3 = 0; // 2^32 - 1
-    printf("v1: %d\n", v2); // 0
+    int v3 = 0;                // 2^32 - 1
+    printf("v1: %d\n", v2);    // 0
 
     // 初始化窗口
     InitWindow(800, 450, "raylib [core] example - basic window");
 
     // ==== 1. 初始化(循环前) ====
-    ctx.posX = 400;
-    ctx.posY = 225;
+    BallEntity ball1 = ctx.ball1;
+    ball1.posX = 400;
+    ball1.posY = 225;
+    ball1.moveSpeed = 50.5f;
+
     ctx.moveX = 0;
     ctx.moveY = 0;
-    ctx.moveSpeed = 50.5f;
 
     SetTargetFPS(60); // 16.67ms
 
