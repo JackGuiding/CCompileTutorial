@@ -25,15 +25,13 @@ void DoLogic(float dt) {
     // 移动小球
     // 变量1: ctx.ball1
     // 变量2: ball1, 它是复制了 ctx.ball1 的值
-    BallEntity ball1 = ctx.ball1;
-    ball1.posX += ctx.moveX * ball1.moveSpeed * dt; // px/s
-    ball1.posY += ctx.moveY * ball1.moveSpeed * dt;
+    ctx.ball1.posX += ctx.moveX * ctx.ball1.moveSpeed * dt; // px/s
+    ctx.ball1.posY += ctx.moveY * ctx.ball1.moveSpeed * dt;
 }
 
 void Draw() {
-    BallEntity ball1 = ctx.ball1;
     // 多种表现方式 1图像:
-    DrawCircle((int)ball1.posX, (int)ball1.posY, 50, YELLOW);
+    DrawCircle((int)ctx.ball1.posX, (int)ctx.ball1.posY, 50, YELLOW);
     DrawCircle(800, 450, 10, RED);
 
     // 多种表现方式 2文字:
@@ -72,10 +70,9 @@ int main(void) {
     InitWindow(800, 450, "raylib [core] example - basic window");
 
     // ==== 1. 初始化(循环前) ====
-    BallEntity ball1 = ctx.ball1;
-    ball1.posX = 400;
-    ball1.posY = 225;
-    ball1.moveSpeed = 50.5f;
+    ctx.ball1.posX = 400;
+    ctx.ball1.posY = 225;
+    ctx.ball1.moveSpeed = 50.5f;
 
     ctx.moveX = 0;
     ctx.moveY = 0;
