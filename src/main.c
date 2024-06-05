@@ -27,10 +27,12 @@ int main(void) {
         iArray[i] = 0;
     }
 
+    for (int i = 0; i < 50; i++) {
+        printf("iArray[%d] value: %d\n", i, iArray[i]);
+    }
+
     float fArray[30]; // 30个float元素
     Context ctxArray[10]; // 10个Context元素
-    printf("iArray[0] value: %d\n", iArray[0]); // 对数组元素取值
-    printf("iArray[1] value: %d\n", iArray[1]);
 
     // 初始化窗口
     InitWindow(800, 450, "raylib [core] example - basic window");
