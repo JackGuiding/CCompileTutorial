@@ -2,37 +2,26 @@
 #include "Context.h"
 #include <stdio.h>
 
-void ProcssInput(Context *ctx) {
+void ProcssInput(Context *ctx) {}
 
-}
-
-void DoLogic(Context *ctx, float dt) {
-
-}
+void DoLogic(Context *ctx, float dt) {}
 
 void Draw(Context *ctx) {
-
+    for (int i = 0; i < 10; i++) {
+        BallEntity *ball = &ctx->balls[i];
+        DrawCircle((int)ball->posX, (int)ball->posY, 10, RED);
+        printf("ball[%d]: %f, %f\n", i, ball->posX, ball->posY);
+    }
 }
 
 int main(void) {
 
-    Context ctx; // 1000
-
-    // 数组变量
-    // 变量必有两个内存属性: 地址, 值
-    // 一个变量一个地址
-    int iArray[50]; // 50个int元素
-    for (int i = 0; i < 50; i++) {
-        // 对数组元素赋值
-        iArray[i] = 0;
+    Context ctx = {0}; // 1000
+    for (int i = 0; i < 10; i++) {
+        BallEntity *ball = &ctx.balls[i];
+        ball->posX = i * 50;
+        ball->posY = i * 50;
     }
-
-    for (int i = 0; i < 50; i++) {
-        printf("iArray[%d] value: %d\n", i, iArray[i]);
-    }
-
-    float fArray[30]; // 30个float元素
-    Context ctxArray[10]; // 10个Context元素
 
     // 初始化窗口
     InitWindow(800, 450, "raylib [core] example - basic window");
