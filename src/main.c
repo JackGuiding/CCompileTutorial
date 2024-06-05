@@ -14,30 +14,23 @@ void Draw(Context *ctx) {
 
 }
 
-// 返回类型: int
-// 函数名: Add
-// 参数: int a, int b
-int Add(int a, int b) {
-    int result = a - -b;
-    return result;
-}
-
-void PrintHello() {
-    printf("Hello, World!\n");
-}
-
 int main(void) {
 
     Context ctx; // 1000
 
-    int a = 3;
-    int b = 4;
-    int c = Add(a, b);
-    int d = Add(a, c);
-    int e = Add(c, d);
+    // 数组变量
+    // 变量必有两个内存属性: 地址, 值
+    // 一个变量一个地址
+    int iArray[50]; // 50个int元素
+    for (int i = 0; i < 50; i++) {
+        // 对数组元素赋值
+        iArray[i] = 0;
+    }
 
-    PrintHello();
-    // ...... 1000行
+    float fArray[30]; // 30个float元素
+    Context ctxArray[10]; // 10个Context元素
+    printf("iArray[0] value: %d\n", iArray[0]); // 对数组元素取值
+    printf("iArray[1] value: %d\n", iArray[1]);
 
     // 初始化窗口
     InitWindow(800, 450, "raylib [core] example - basic window");
