@@ -1,11 +1,13 @@
 #ifndef BALL_H__
 #define BALL_H__
 
+#include "../include/raylib.h"
+
 // 一个小球占12bytes字节
 struct BallEntity {
     // 结构体的`字段`
-    float posX; // 4bytes == 32bits
-    float posY; // 4bytes == 32bits
+    Vector2 pos;
+    float radius;
     float moveSpeed; // 4bytes == 32bits
 };
 

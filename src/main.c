@@ -1,6 +1,7 @@
 #include "../include/raylib.h" // ../ 表示上一级目录 ../../上上级目录
 #include "Context.h"
 #include <stdio.h>
+#include "Physics2D.h"
 
 void ProcssInput(Context *ctx) {}
 
@@ -9,7 +10,8 @@ void DoLogic(Context *ctx, float dt) {}
 void Draw(Context *ctx) {
     for (int i = 0; i < ctx->ballCount; i++) {
         BallEntity *ball = &ctx->balls[i];
-        DrawCircle((int)ball->posX, (int)ball->posY, 10, RED);
+        // DrawCircle((int)ball->posX, (int)ball->posY, 10, RED);
+        DrawCircleV(ball->pos, ball->radius, RED);
     }
 }
 
@@ -20,8 +22,9 @@ int main(void) {
     ctx.ballLimitCount = 10;
     for (int i = 0; i < ctx.ballCount; i++) {
         BallEntity *ball = &ctx.balls[i];
-        ball->posX = 50 + i * 50;
-        ball->posY = 225;
+        ball->pos.x = 50 + i * 50;
+        ball->pos.y = 225;
+        ball->radius = 10;
     }
 
     // 初始化窗口
@@ -46,16 +49,29 @@ int main(void) {
         ProcssInput(&ctx);
 
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            // 左键点击生成小球
             Vector2 mousePos = GetMousePosition();
             // 设置小球的位置
             if (ctx.ballCount >= ctx.ballLimitCount) {
                 printf("error");
             } else {
                 BallEntity *newBall = &ctx.balls[ctx.ballCount];
-                newBall->posX = mousePos.x;
-                newBall->posY = mousePos.y;
+                newBall->pos = mousePos;
+                newBall->radius = 10;
                 // 生成一个小球: 意味着 Count + 1
                 ctx.ballCount += 1;
+            }
+        } else if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
+            Vector2 mousePos = GetMousePosition();
+            for (int i = 0; i < ctx.ballCount; i += 1) {
+                BallEntity *ball = &ctx.balls[i];
+                // 鼠标是否处于小球内部
+                bool isInside = IsPointInsideCircle(mousePos, ball->pos, ball->radius);
+                if (isInside) {
+                    printf("No. %d\r\n", i);
+                } else {
+
+                }
             }
         }
 
