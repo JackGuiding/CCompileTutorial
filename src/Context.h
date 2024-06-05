@@ -11,8 +11,6 @@ typedef struct Context {
     // 类型: struct BallEntity
     // 字段名; ball1
     BallEntity ball1;
-    // BallEntity ball2;
-    // BallEntity ball3;
 
     float moveX;
     float moveY;
