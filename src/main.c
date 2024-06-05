@@ -2,31 +2,42 @@
 #include "Context.h"
 #include <stdio.h>
 
-void Fake_ChangeValue(int input) {
-    input = 5;
+void ProcssInput(Context *ctx) {
+
 }
 
-void Real_ChangeValue(int* input) {
-    *input = 5;
-}
-
-void ProcssInput(Context *ctx) {}
-
-// *ctx 表示它是一个指针, 也即是地址
 void DoLogic(Context *ctx, float dt) {
-    // 传入了地址
-    ctx->moveX = 5;
+
 }
 
-void Draw(Context *ctx) {}
+void Draw(Context *ctx) {
+
+}
+
+// 返回类型: int
+// 函数名: Add
+// 参数: int a, int b
+int Add(int a, int b) {
+    int result = a - -b;
+    return result;
+}
+
+void PrintHello() {
+    printf("Hello, World!\n");
+}
 
 int main(void) {
 
     Context ctx; // 1000
-    int a = 10;
-    // Fake_ChangeValue(a);
-    Real_ChangeValue(&a);
-    printf("a: %d\n", a);
+
+    int a = 3;
+    int b = 4;
+    int c = Add(a, b);
+    int d = Add(a, c);
+    int e = Add(c, d);
+
+    PrintHello();
+    // ...... 1000行
 
     // 初始化窗口
     InitWindow(800, 450, "raylib [core] example - basic window");
