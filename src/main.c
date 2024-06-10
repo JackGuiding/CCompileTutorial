@@ -4,6 +4,10 @@
 
 int main(void) {
 
+    int a = 3;
+
+    int *ptr = &a;
+
     // 192.168.0.1
     // 0.0.0.0 ~ 255.255.255.255
     // 8bit, 8bit, 8bit, 8bit = 32bit
@@ -22,7 +26,8 @@ int main(void) {
 
     ipFullValue = ipFullValue << 8;
     ipFullValue = ipFullValue | ip4;
-    printf("int full value: %d\r\n", ipFullValue);
+
+    printf("int full value: %u\r\n", ipFullValue);
 
     unsigned char ip1b = ipFullValue >> 24;
     unsigned char ip2b = (ipFullValue >> 16) & 0xFF;
