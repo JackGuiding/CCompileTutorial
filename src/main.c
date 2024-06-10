@@ -2,40 +2,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void Draw(int count, Vector2 *balls) {
-    for (int i = 0; i < count; i++) {
-        DrawCircleV(balls[i], 10, RED);
-    }
-}
-
-void Test() {
-    int arr[50] = {0};
-    int a = 10; // 具体地址
-    int b = 20;
-    a = 43;
-    b = a;
-    b = 80;
-
-    // 函数结束
-    // arr、a和b的栈就会释放
-}
-
 int main(void) {
 
-    Test();
+    // 192.168.0.1
+    // 0.0.0.0 ~ 255.255.255.255
+    // 8bit, 8bit, 8bit, 8bit = 32bit
+    unsigned char ip1 = 192;
+    unsigned char ip2 = 168;
+    unsigned char ip3 = 0;
+    unsigned char ip4 = 255;
 
-    // 在栈上开数组时, 需要知道长度
-    // 假如有个程序它可能有1~100000000元素
-    // int arr[100000000] = {0};
+    unsigned int ipFullValue;
+    ipFullValue = ip1;
+    ipFullValue = ipFullValue << 8;
+    ipFullValue = ipFullValue | ip2;
 
-    // 点击生成小球
-    // x y = 32bit * 2 = 64bit
-    int count = 50;                         // 当前小球数量
-    int countMax = 100;                     // 小球最大数量
-    Vector2 *balls = malloc(64 * countMax); // 不会清空内存
-    for (int i = 0; i < count; i++) {
-        balls[i] = (Vector2){i, 0};
-    }
+    ipFullValue = ipFullValue << 8;
+    ipFullValue = ipFullValue | ip3;
+
+    ipFullValue = ipFullValue << 8;
+    ipFullValue = ipFullValue | ip4;
+    printf("int full value: %d\r\n", ipFullValue);
+
+    unsigned char ip1b = ipFullValue >> 24;
+    unsigned char ip2b = (ipFullValue >> 16) & 0xFF;
+    unsigned char ip3b = (ipFullValue >> 8) & 0xFF;
+    unsigned char ip4b = ipFullValue & 0xFF;
+
+    printf("ip1b: %d\r\n", ip1b);
+    printf("ip2b: %d\r\n", ip2b);
+    printf("ip3b: %d\r\n", ip3b);
+    printf("ip4b: %d\r\n", ip4b);
+
+    Color color = { ip1, ip2, ip3, ip4 };
 
     InitWindow(800, 600, "Game");
 
@@ -44,42 +43,10 @@ int main(void) {
     while (!WindowShouldClose()) {
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
-
-        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-            Vector2 mousePos = GetMousePosition();
-            if (count >= countMax) {
-                // 无限生成小球
-                {
-                    // - Realloc
-                    balls = realloc(balls, 64 * countMax * 2);
-
-                    // - 手写(Manual)
-                    Vector2 *newBalls = malloc(64 * countMax * 2);
-                    for (int i = 0; i < countMax; i++) {
-                        // 拷贝数据
-                        newBalls[i] = balls[i];
-                    }
-                    free(balls);
-                    balls = newBalls;
-                    
-                    countMax *= 2;
-                }
-                printf("Extends%d\n", countMax);
-            } else {
-                balls[count] = mousePos;
-                count += 1;
-            }
-        }
-
-        // 画小球
-        Draw(count, balls);
+        ClearBackground(color);
 
         EndDrawing();
     }
-
-    // 程序退出可以释放内存
-    free(balls);
 
     CloseWindow();
 
