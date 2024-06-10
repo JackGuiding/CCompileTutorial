@@ -34,7 +34,18 @@ int main(void) {
     printf("ip3b: %d\r\n", ip3b);
     printf("ip4b: %d\r\n", ip4b);
 
-    Color color = { ip1, ip2, ip3, ip4 };
+    Color color = {ip1, ip2, ip3, ip4};
+
+    { // malloc
+        int *arr = malloc(4 * 100);
+        for (int i = 0; i < 100; i++) {
+            arr[i] = 0;
+        }
+    }
+
+    { // calloc
+        int *arrb = calloc(4, 100);
+    }
 
     InitWindow(800, 600, "Game");
 
