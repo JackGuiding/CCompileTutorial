@@ -7,6 +7,7 @@
         "raylib.h": "c",
         "a.h": "c",
         "b.h": "c",
-        "corecrt_stdio_config.h": "c"
+        "corecrt_stdio_config.h": "c",
+        "stdlib.h": "c"
     }
 }
